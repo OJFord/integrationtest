@@ -14,10 +14,15 @@ testcases = [
 
 if __name__ == '__main__':
     for case in testcases:
+        print(case.__name__ + ' ... ', end='')
         proc = subprocess.run(
             ['python', 'tests.py', 'tests.py:{}'.format(case.__name__)],
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT
         )
-
-        assert proc.stdout.decode('utf-8').split('\n')[0] == case.expect
+        result = proc.stdout.decode('utf-8').split('\n')[0]
+        try:
+            assert result == case.expect
+            print('ok')
+        except:
+            print('FAIL: got %s; expected %s' % (result, case.expect))
