@@ -2,14 +2,17 @@
 
 import subprocess
 
-from tests import (TestAllFail, TestCircularDependency, TestDependencyFail,
-                   TestPassInOrder)
+from tests import (
+    TestAllFail, TestCircularDependency, TestDependencyFail, TestPassInOrder,
+    TestSetUpSkippedOnDependFail
+)
 
 testcases = [
     TestAllFail,
     TestCircularDependency,
     TestDependencyFail,
-    TestPassInOrder
+    TestPassInOrder,
+    TestSetUpSkippedOnDependFail
 ]
 
 if __name__ == '__main__':

@@ -60,3 +60,18 @@ class TestPassInOrder(TestCase):
 
     def test_b(self):
         pass
+
+
+class TestSetUpSkippedOnDependFail(TestCase):
+    expect = 'FS'
+
+    def setUp(self):
+        if self._testMethodName == 'test_a':
+            self.fail('We expect this to be unreachable')
+
+    @depends_on('test_b')
+    def test_a(self):
+        pass
+
+    def test_b(self):
+        self.fail('We expect this to fail')
