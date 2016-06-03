@@ -45,12 +45,12 @@ if __name__ == '__main__':
 
 Without integrationtest, the methods would be alphanumerically sorted, and `test_a` would happen first:
 
-> test_a ... ERROR
-> test_b ... FAIL
-> test_c ... ok
+> test_a ... ERROR  
+> test_b ... FAIL  
+> test_c ... ok  
 
 *With* integrationtest, the dependency is picked up, and `test_a` is skipped after `test_b` fails:
 
-> test_b ... FAIL
-> test_c ... ok
-> test_a ... SKIP: Because a dependency failed
+> test_b ... FAIL  
+> test_c ... ok  
+> test_a ... SKIP: Because a dependency failed  
