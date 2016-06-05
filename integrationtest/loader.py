@@ -2,7 +2,7 @@ from functools import cmp_to_key, partial, wraps
 
 import nose
 
-from integrationtest.decorators import dependable
+from integrationtest.decorators import try_or_add_failure
 
 
 class DependencyLoader(nose.loader.TestLoader):
@@ -38,16 +38,27 @@ class DependencyLoader(nose.loader.TestLoader):
         suite = super().loadTestsFromTestCase(testcase)
 
         def make_dependable(tc_test):
+            set_up = getattr(tc_test, 'setUp')
             method = getattr(tc_test.test, tc_test.test._testMethodName)
 
-            @dependable
+            @try_or_add_failure(method.__name__)
+            @wraps(set_up)
+            def dependable_set_up(_, *a, **kw):
+                return set_up(*a, **kw)
+
+            @try_or_add_failure()
             @wraps(method)
             def dependable_method(_, *a, **kw):
                 return method(*a, **kw)
 
             setattr(
                 tc_test.test.__class__,
-                tc_test.test._testMethodName,
+                set_up.__name__,
+                dependable_set_up
+            )
+            setattr(
+                tc_test.test.__class__,
+                method.__name__,
                 dependable_method
             )
             return tc_test
