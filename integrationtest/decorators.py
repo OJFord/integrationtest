@@ -1,19 +1,23 @@
 from functools import wraps
 
 
-def dependable(fn):
+def try_or_add_failure(failure_fn=None):
 
-    @wraps(fn)
-    def _callable(ctxt, *a, **kw):
-        try:
-            return fn(ctxt, *a, **kw)
-        except (ctxt.failureException, Exception) as e:
-            setattr(ctxt.__class__, '_failures', getattr(
-                ctxt.__class__, '_failures', set()
-            ) | {fn.__name__})
-            raise e
+    def wrapped(fn):
 
-    return _callable
+        @wraps(fn)
+        def _callable(ctxt, *a, **kw):
+            try:
+                return fn(ctxt, *a, **kw)
+            except (ctxt.failureException, Exception) as e:
+                setattr(ctxt.__class__, '_failures', getattr(
+                    ctxt.__class__, '_failures', set()
+                ) | {failure_fn or fn.__name__})
+                raise e
+
+        return _callable
+
+    return wrapped
 
 
 def depends_on(*fns):

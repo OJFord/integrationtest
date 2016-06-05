@@ -2,17 +2,21 @@
 
 import subprocess
 
-from tests import (TestAllFail, TestCircularDependency, TestDependencyFail,
-                   TestPassInOrder)
+from tests import (
+    TestAllFailWithoutDependency, TestCircularDependency, TestDependencyFail,
+    TestRunInOrder, TestSetUpSkippedOnDependFail
+)
 
 testcases = [
-    TestAllFail,
+    TestAllFailWithoutDependency,
     TestCircularDependency,
     TestDependencyFail,
-    TestPassInOrder
+    TestRunInOrder,
+    TestSetUpSkippedOnDependFail
 ]
 
 if __name__ == '__main__':
+    failures = []
     for case in testcases:
         print(case.__name__ + ' ... ', end='')
         proc = subprocess.run(
@@ -26,3 +30,13 @@ if __name__ == '__main__':
             print('ok')
         except:
             print('FAIL: got %s; expected %s' % (result, case.expect))
+            failures.append((
+                case.__name__,
+                '{} != {}'.format(result, case.expect),
+                proc.stdout
+            ))
+    for failure in failures:
+        print('##########################################')
+        print('# {}: {}'.format(failure[0], failure[1]))
+        print('##########################################')
+        print(str(failure[2], 'utf-8'))
