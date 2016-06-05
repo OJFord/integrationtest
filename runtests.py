@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import subprocess
+import sys
 
 from tests import (
     TestAllFailWithoutDependency, TestCircularDependency, TestDependencyFail,
@@ -36,7 +37,9 @@ if __name__ == '__main__':
                 proc.stdout
             ))
     for failure in failures:
-        print('##########################################')
-        print('# {}: {}'.format(failure[0], failure[1]))
-        print('##########################################')
-        print(str(failure[2], 'utf-8'))
+        print('\n##########################################', file=sys.stderr)
+        print('# {}: {}'.format(failure[0], failure[1]), file=sys.stderr)
+        print('##########################################', file=sys.stderr)
+        print(str(failure[2], 'utf-8'), file=sys.stderr)
+    if failures:
+        exit(1)
