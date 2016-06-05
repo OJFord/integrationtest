@@ -3,15 +3,15 @@
 import subprocess
 
 from tests import (
-    TestAllFail, TestCircularDependency, TestDependencyFail, TestPassInOrder,
-    TestSetUpSkippedOnDependFail
+    TestAllFailWithoutDependency, TestCircularDependency, TestDependencyFail,
+    TestRunInOrder, TestSetUpSkippedOnDependFail
 )
 
 testcases = [
-    TestAllFail,
+    TestAllFailWithoutDependency,
     TestCircularDependency,
     TestDependencyFail,
-    TestPassInOrder,
+    TestRunInOrder,
     TestSetUpSkippedOnDependFail
 ]
 

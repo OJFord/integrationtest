@@ -9,7 +9,7 @@ if __name__ == '__main__':
     runner.run(*sys.argv)
 
 
-class TestAllFail(TestCase):
+class TestAllFailWithoutDependency(TestCase):
     expect = 'FFF'
 
     def test_a(self):
@@ -48,18 +48,21 @@ class TestDependencyFail(TestCase):
         pass
 
 
-class TestPassInOrder(TestCase):
+class TestRunInOrder(TestCase):
     expect = '...'
+    _b_ran = False
+    _c_ran = False
 
     @depends_on('test_b', 'test_c')
     def test_a(self):
-        pass
+        if not self.__class__._b_ran or not self.__class__._c_ran:
+            self.fail('This test ran before its dependencies')
 
     def test_c(self):
-        pass
+        self.__class__._c_ran = True
 
     def test_b(self):
-        pass
+        self.__class__._b_ran = True
 
 
 class TestSetUpSkippedOnDependFail(TestCase):
@@ -67,7 +70,7 @@ class TestSetUpSkippedOnDependFail(TestCase):
 
     def setUp(self):
         if self._testMethodName == 'test_a':
-            self.fail('We expect this to be unreachable')
+            self.fail('setUp ran for a test with failing dependency')
 
     @depends_on('test_b')
     def test_a(self):
