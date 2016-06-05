@@ -1,3 +1,4 @@
+import sys
 from distutils.core import Command, setup
 from subprocess import run
 
@@ -13,11 +14,11 @@ class RunTests(Command):
 
     def run(self):
         proc = run('./runtests.py', shell=True)
-        exit(proc.returncode)
+        sys.exit(proc.returncode)
 
 setup(
     name='integrationtest',
-    version='0.2.1',
+    version='0.2.2',
     author='Ollie Ford <me@ojford.com>',
     packages=['integrationtest'],
     long_description=open('README.md').read(),
