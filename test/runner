@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 
+import os
 import subprocess
 import sys
 
-from tests import (
+from fixtures import (
     TestAllFailWithoutDependency, TestCircularDependency, TestDependencyFail,
     TestRunInOrder, TestSetUpSkippedOnDependFail
 )
@@ -17,11 +18,12 @@ testcases = [
 ]
 
 if __name__ == '__main__':
+    fixtures = os.path.dirname(os.path.realpath(__file__))+'/fixtures.py'
     failures = []
     for case in testcases:
         print(case.__name__ + ' ... ', end='')
         proc = subprocess.run(
-            ['python', 'tests.py', 'tests.py:{}'.format(case.__name__)],
+            ['python', fixtures, '{}:{}'.format(fixtures, case.__name__)],
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT
         )

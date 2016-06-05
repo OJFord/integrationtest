@@ -13,7 +13,7 @@ class RunTests(Command):
         pass
 
     def run(self):
-        proc = run('./runtests.py', shell=True)
+        proc = run('./test/runner', shell=True)
         sys.exit(proc.returncode)
 
 setup(

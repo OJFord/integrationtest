@@ -1,4 +1,5 @@
 # integrationtest
+![Travis CI build status](https://travis-ci.org/OJFord/integrationtest.svg?branch=master)
 
 A simple wrapper around unittest to make it nicer to use for integration testing.
 
