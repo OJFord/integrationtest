@@ -20,9 +20,11 @@ pip install integrationtest
 
 ```python
 import sys
+
 from integrationtest import runner
 from integrationtest import TestCase
 from integrationtest.decorators import depends_on
+
 
 class TestCase(TestCase):
 	test_b_happened = False
@@ -39,6 +41,7 @@ class TestCase(TestCase):
 	def test_c(self):
 		pass
 
+
 if __name__ == '__main__':
 	runner.run(*sys.argv)
 ```
@@ -54,3 +57,8 @@ Without integrationtest, the methods would be alphanumerically sorted, and `test
 > test_b ... FAIL  
 > test_c ... ok  
 > test_a ... SKIP: Because a dependency failed  
+
+### Running
+You can:
+ - use an instance of `integrationtest.Runner`, such as `integrationtest.runner`, and call `Runner#run` with arguments as you would `nosetests` on the command line;
+ - import `integrationtest.loader.DependencyLoader`, and use it with nose `run`/`main`/`TestProgram` as the keyword argument `testLoader`
