@@ -5,12 +5,14 @@ import subprocess
 import sys
 
 from fixtures import (
-    TestAllFailWithoutDependency, TestCircularDependency, TestDependencyFail,
-    TestRunInOrder, TestSetUpSkippedOnDependFail
+    TestAllFailWithoutDependency, TestChainedDependantSkipsAfterFail,
+    TestCircularDependency, TestDependencyFail, TestRunInOrder,
+    TestSetUpSkippedOnDependFail
 )
 
 testcases = [
     TestAllFailWithoutDependency,
+    TestChainedDependantSkipsAfterFail,
     TestCircularDependency,
     TestDependencyFail,
     TestRunInOrder,

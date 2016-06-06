@@ -1,5 +1,7 @@
 from functools import wraps
 
+from nose.exc import SkipTest
+
 
 def try_or_add_failure(failure_fn=None):
 
@@ -9,10 +11,10 @@ def try_or_add_failure(failure_fn=None):
         def _callable(ctxt, *a, **kw):
             try:
                 return fn(ctxt, *a, **kw)
-            except (ctxt.failureException, Exception) as e:
+            except (SkipTest, ctxt.failureException, Exception) as e:
                 setattr(ctxt.__class__, '_failures', getattr(
                     ctxt.__class__, '_failures', set()
-                ) | {failure_fn or fn.__name__})
+                ).add(failure_fn or fn.__name__))
                 raise e
 
         return _callable
