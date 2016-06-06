@@ -18,7 +18,7 @@ class RunTests(Command):
 
 setup(
     name='integrationtest',
-    version='0.2.3',
+    version='0.2.4',
     author='Ollie Ford <me@ojford.com>',
     packages=['integrationtest'],
     long_description=open('README.md').read(),

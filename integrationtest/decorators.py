@@ -14,7 +14,7 @@ def try_or_add_failure(failure_fn=None):
             except (SkipTest, ctxt.failureException, Exception) as e:
                 setattr(ctxt.__class__, '_failures', getattr(
                     ctxt.__class__, '_failures', set()
-                ).add(failure_fn or fn.__name__))
+                ) | {failure_fn or fn.__name__})
                 raise e
 
         return _callable
