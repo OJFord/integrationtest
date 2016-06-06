@@ -22,6 +22,21 @@ class TestAllFailWithoutDependency(TestCase):
         self.fail('We expect this to fail')
 
 
+class TestChainedDependantSkipsAfterFail(TestCase):
+    expect = 'FSS'
+
+    def test_a(self):
+        self.fail('We expect this to fail')
+
+    @depends_on('test_a')
+    def test_b(self):
+        pass
+
+    @depends_on('test_b')
+    def test_c(self):
+        pass
+
+
 class TestCircularDependency(TestCase):
     expect = 'E'
 
