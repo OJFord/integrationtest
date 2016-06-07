@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+import re
 import subprocess
 import sys
 
@@ -31,7 +32,7 @@ if __name__ == '__main__':
         )
         result = proc.stdout.decode('utf-8').split('\n')[0]
         try:
-            assert result == case.expect
+            assert re.match(case.expect, result)
             print('ok')
         except:
             print('FAIL: got %s; expected %s' % (result, case.expect))

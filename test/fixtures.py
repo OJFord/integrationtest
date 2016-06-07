@@ -50,7 +50,7 @@ class TestCircularDependency(TestCase):
 
 
 class TestDependencyFail(TestCase):
-    expect = 'F.S'
+    expect = '[F\.]{2}S'
 
     def test_b(self):
         self.fail('We expect this to fail')
@@ -64,7 +64,7 @@ class TestDependencyFail(TestCase):
 
 
 class TestRunInOrder(TestCase):
-    expect = '...'
+    expect = '\.{3}'
     _b_ran = False
     _c_ran = False
 
