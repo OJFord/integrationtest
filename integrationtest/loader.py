@@ -1,4 +1,5 @@
 from functools import cmp_to_key, partial, wraps
+from random import getrandbits
 
 import nose
 
@@ -32,7 +33,12 @@ class DependencyLoader(nose.loader.TestLoader):
                     b.test._testMethodName
                 )
             )
-        return int(a_depends_on_b) - int(b_depends_on_a)
+        elif a_depends_on_b:
+            return 1
+        elif b_depends_on_a:
+            return -1
+        else:  # shake out bugs from accidental dependency specs based on alpha
+            return getrandbits(1)
 
     def loadTestsFromTestCase(self, testcase):
         suite = super().loadTestsFromTestCase(testcase)
